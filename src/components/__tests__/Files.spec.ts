@@ -8,6 +8,7 @@ import { useDriveStore } from '@/stores/drive';
 import { fn } from '@vitest/spy';
 
 describe('Files Component', () => {
+
   it('renders properly', () => {
     const wrapper = mount(Files, {
       global: {
@@ -29,7 +30,15 @@ describe('Files Component', () => {
               }
             }
           })
-        ]
+        ],
+        mocks: {
+          gapi: {
+            load: function() {},
+            client: {
+              init: function() {},
+            }
+          }
+        }
       }
     });
     const store = useDriveStore(); // uses the testing pinia!
