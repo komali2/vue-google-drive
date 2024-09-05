@@ -1,6 +1,6 @@
 # vue-google-drive
 
-This template should help get you started developing with Vue 3 in Vite.
+Example application of using the Google Drive API from Vue.
 
 ## Recommended IDE Setup
 
