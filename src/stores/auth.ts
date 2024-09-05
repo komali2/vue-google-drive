@@ -41,6 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
     const tokenCheck = localStorage.getItem('token');
     if (tokenCheck) {
       const parsed = JSON.parse(tokenCheck);
+
       token.value = parsed;
       gapi.client.setToken(parsed);
       isLoggedIn.value = true;
@@ -95,5 +96,5 @@ export const useAuthStore = defineStore('auth', () => {
   }
   gapiLoaded();
   gisLoaded();
-  return { login, logout, isLoggedIn };
+  return { login, logout, isLoggedIn, token };
 });

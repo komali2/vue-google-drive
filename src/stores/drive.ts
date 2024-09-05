@@ -1,11 +1,14 @@
 /// <reference types="gapi" />
 /// <reference types="gapi.auth2" />
 
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
+import { useAuthStore } from '../stores/auth';
 
 export const useDriveStore = defineStore('drive', () => {
+  const authStore = useAuthStore();
   const files = ref([]);
+  const uploadingFile = ref(false);
 
   async function fetchFiles() {
     // @ts-ignore
@@ -42,5 +45,39 @@ export const useDriveStore = defineStore('drive', () => {
     a.click();
   }
 
-  return { fetchFiles, files, downloadFile };
+  async function uploadFile(files: File[]) {
+    // Tanaike again, stackoverflow's resident
+    // only-person-who-actually-understood-the-gdrive-api-docs
+    // https://stackoverflow.com/a/65192321/2590119
+    const file = files[0];
+    const fr = new FileReader();
+    fr.readAsArrayBuffer(file);
+    uploadingFile.value = true;
+    fr.onload = (f) => {
+      const fileMetadata = {
+        name: file.name,
+        parents: []
+      };
+      const form = new FormData();
+      form.append(
+        'metadata',
+        new Blob([JSON.stringify(fileMetadata)], { type: 'application/json' })
+      );
+      // @ts-ignore
+      form.append('file', new Blob([new Uint8Array(f.target.result)], { type: file.type }));
+      fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method: 'POST',
+        // @ts-ignore
+        headers: new Headers({ Authorization: 'Bearer ' + authStore.token.access_token }),
+        body: form
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          uploadingFile.value = false;
+        });
+    };
+  }
+
+  return { fetchFiles, files, downloadFile, uploadFile, uploadingFile };
 });
