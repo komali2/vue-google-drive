@@ -10,19 +10,26 @@ export type ReadFile = {
   id: string;
   name: string;
 };
+
+function download(id: string, filename: string) {
+  store.downloadFile(id, filename);
+}
 </script>
 
 <template>
   <div class="files">
     <ul data-testid="files-list">
       <li data-testid="files-item" v-for="file in files">
-        {{ file.name }}
+        <a @click="() => download(file.id, file.name)">{{ file.name }}</a>
       </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
+a {
+  cursor: pointer;
+}
 h1 {
   font-weight: 500;
   font-size: 2.6rem;
