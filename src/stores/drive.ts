@@ -79,5 +79,7 @@ export const useDriveStore = defineStore('drive', () => {
     };
   }
 
-  return { fetchFiles, files, downloadFile, uploadFile, uploadingFile };
+  async function deleteFile(id: string) {}
+
+  return { fetchFiles, files, downloadFile, uploadFile, uploadingFile, deleteFile };
 });

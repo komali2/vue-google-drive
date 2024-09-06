@@ -16,10 +16,15 @@ export type ReadFile = {
 function download(id: string, filename: string) {
   store.downloadFile(id, filename);
 }
+
+function deleteFile(id: string) {
+  store.deleteFile(id);
+}
 </script>
 
 <template>
   <div class="files">
+    <h2>Files</h2>
     <ul data-testid="files-list">
       <li data-testid="files-item" v-for="file in files" class="files-item">
         <a class="name" @click="() => download(file.id, file.name)">{{ file.name }}</a>
@@ -29,6 +34,7 @@ function download(id: string, filename: string) {
         <span class="modified-time">
           {{ file.modifiedTime }}
         </span>
+        <button class="delete" @click="() => deleteFile(file.id)">Delete</button>
       </li>
     </ul>
   </div>
@@ -78,5 +84,11 @@ h3 {
 
 .modified-time {
   width: 191px;
+}
+
+.delete {
+  margin-left: 8px;
+  background-color: #bf4342;
+  color: white;
 }
 </style>
