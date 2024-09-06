@@ -28,14 +28,25 @@ function deleteFile(id: string) {
     <h2>Files</h2>
     <ul data-testid="files-list">
       <li data-testid="files-item" v-for="file in files" class="files-item">
-        <a class="name" @click="() => download(file.id, file.name)">{{ file.name }}</a>
+        <a
+          :data-testid="`files-link-${file.id}`"
+          class="name"
+          @click="() => download(file.id, file.name)"
+          >{{ file.name }}</a
+        >
         <span class="filetype">
           {{ file.fullFileExtension || 'gdoc' }}
         </span>
         <span class="modified-time">
           {{ file.modifiedTime }}
         </span>
-        <button class="delete" @click="() => deleteFile(file.id)">Delete</button>
+        <button
+          :data-testid="`files-delete-${file.id}`"
+          class="delete"
+          @click="() => deleteFile(file.id)"
+        >
+          Delete
+        </button>
       </li>
     </ul>
   </div>
