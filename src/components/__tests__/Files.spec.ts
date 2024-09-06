@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Files from '../Files.vue';
 import type { ReadFile } from '../Files.vue';
@@ -7,8 +7,22 @@ import { createTestingPinia } from '@pinia/testing';
 import { useDriveStore } from '@/stores/drive';
 import { fn } from '@vitest/spy';
 
+beforeEach(() => {
+  // @ts-ignore
+  globalThis.gapi = {
+    load: fn()
+  };
+  // @ts-ignore
+  globalThis.google = {
+    load: fn(),
+    accounts: {
+      oauth2: {
+        initTokenClient: fn()
+      }
+    }
+  };
+});
 describe('Files Component', () => {
-
   it('renders properly', () => {
     const wrapper = mount(Files, {
       global: {
@@ -30,15 +44,7 @@ describe('Files Component', () => {
               }
             }
           })
-        ],
-        mocks: {
-          gapi: {
-            load: function() {},
-            client: {
-              init: function() {},
-            }
-          }
-        }
+        ]
       }
     });
     const store = useDriveStore(); // uses the testing pinia!
