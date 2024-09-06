@@ -22,9 +22,20 @@ function upload() {
 </script>
 
 <template>
-  <div>
+  <div class="uploader">
+    <h2>Upload File</h2>
     <div v-if="uploadingFile">Uploading...</div>
     <input type="file" id="files" name="file" @change="setFile" />
-    <button @click="upload">Upload</button>
+    <button @click="upload" :disabled="!toUpload.length">Upload</button>
   </div>
 </template>
+
+<style scoped>
+.uploader {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  margin-bottom: 24px;
+  align-items: baseline;
+}
+</style>
