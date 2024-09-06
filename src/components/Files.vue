@@ -11,6 +11,7 @@ export type ReadFile = {
   name: string;
   modifiedTime: string;
   fullFileExtension: string;
+  trashed: boolean;
 };
 
 function download(id: string, filename: string) {
@@ -90,5 +91,6 @@ h3 {
   margin-left: 8px;
   background-color: #bf4342;
   color: white;
+  cursor: pointer;
 }
 </style>

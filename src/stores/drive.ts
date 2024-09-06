@@ -4,6 +4,7 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useAuthStore } from '../stores/auth';
+import type { ReadFile } from '../components/Files.vue';
 
 export const useDriveStore = defineStore('drive', () => {
   const authStore = useAuthStore();
@@ -14,9 +15,11 @@ export const useDriveStore = defineStore('drive', () => {
     // @ts-ignore
     const response = await gapi.client.drive.files.list({
       pageSize: 10,
-      fields: 'files(id, name, modifiedTime, fullFileExtension)'
+      fields: 'files(id, name, modifiedTime, fullFileExtension, trashed)'
     });
-    files.value = response.result.files;
+    files.value = response.result.files.filter((file: ReadFile) => {
+      return !file.trashed;
+    });
   }
 
   async function downloadFile(id: string, filename: string) {
@@ -79,7 +82,23 @@ export const useDriveStore = defineStore('drive', () => {
     };
   }
 
-  async function deleteFile(id: string) {}
+  // The docs straight up are incorrect on this, indicating you should use
+  // `requestBody` instead of `resource`.
+  // https://developers.google.com/drive/api/guides/delete
+  // The only way to find out otherwise is
+  // to stumble across the absolute unit of a drive api knower, Tanaike, and their
+  // distinctive stack overflow answering style
+  //  https://stackoverflow.com/a/62366489/2590119
+  async function deleteFile(id: string) {
+    // @ts-ignore
+    const response = await gapi.client.drive.files.update({
+      fileId: id,
+      resource: {
+        trashed: true
+      }
+    });
+    return response;
+  }
 
   return { fetchFiles, files, downloadFile, uploadFile, uploadingFile, deleteFile };
 });
