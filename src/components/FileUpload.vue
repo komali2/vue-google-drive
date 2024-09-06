@@ -10,7 +10,7 @@ const toUpload = ref([]);
 const { uploadingFile } = storeToRefs(driveStore);
 
 function setFile(event: Event) {
-   // @ts-ignore
+  // @ts-ignore
   if ((event.target as HTMLInputElement).files && (event.target as HTMLInputElement).files.length) {
     // @ts-ignore
     toUpload.value = event.target?.files || [];

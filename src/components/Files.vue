@@ -97,6 +97,9 @@ h3 {
 .modified-time {
   width: 191px;
 }
+.filetype {
+  margin-right: 16px;
+}
 
 .delete {
   margin-left: 8px;

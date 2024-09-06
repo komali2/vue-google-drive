@@ -23,6 +23,19 @@
     <ul>
       <a href="https://codeberg.org/calebrogers/vue-google-drive">Source Code</a>
     </ul>
+    <h2>Known Issues</h2>
+    <p>
+      There's some known issues, tradeoffs that come with my personal hour-boundary I set for take
+      home projects, which is normally 2 hours but in this case was about 4 so I could brush up on
+      Vue.
+    </p>
+    <ul>
+      <li>The app's kinda ugly</li>
+      <li>No logout functionality</li>
+      <li>App breaks on token expiry - requires clearing localstorage</li>
+      <li>"Download" only works on Gdoc type files (since it's "export" under the hood)</li>
+      <li>Delete and Upload operations don't auto-refresh the files list</li>
+    </ul>
   </div>
 </template>
 
