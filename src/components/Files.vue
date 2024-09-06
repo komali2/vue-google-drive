@@ -9,6 +9,8 @@ const { files } = storeToRefs(store);
 export type ReadFile = {
   id: string;
   name: string;
+  modifiedTime: string;
+  fullFileExtension: string;
 };
 
 function download(id: string, filename: string) {
@@ -19,8 +21,14 @@ function download(id: string, filename: string) {
 <template>
   <div class="files">
     <ul data-testid="files-list">
-      <li data-testid="files-item" v-for="file in files">
-        <a @click="() => download(file.id, file.name)">{{ file.name }}</a>
+      <li data-testid="files-item" v-for="file in files" class="files-item">
+        <a class="name" @click="() => download(file.id, file.name)">{{ file.name }}</a>
+        <span class="filetype">
+          {{ file.fullFileExtension || 'gdoc' }}
+        </span>
+        <span class="modified-time">
+          {{ file.modifiedTime }}
+        </span>
       </li>
     </ul>
   </div>
@@ -51,5 +59,24 @@ h3 {
   .greetings h3 {
     text-align: left;
   }
+}
+
+.files-item {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.name {
+  flex-grow: 0;
+  width: 290px;
+}
+
+.filtype {
+  width: 33px;
+}
+
+.modified-time {
+  width: 191px;
 }
 </style>

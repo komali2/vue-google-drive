@@ -14,7 +14,7 @@ export const useDriveStore = defineStore('drive', () => {
     // @ts-ignore
     const response = await gapi.client.drive.files.list({
       pageSize: 10,
-      fields: 'files(id, name)'
+      fields: 'files(id, name, modifiedTime, fullFileExtension)'
     });
     files.value = response.result.files;
   }
