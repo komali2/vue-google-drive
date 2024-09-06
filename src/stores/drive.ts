@@ -8,7 +8,7 @@ import type { ReadFile } from '../components/Files.vue';
 
 export const useDriveStore = defineStore('drive', () => {
   const authStore = useAuthStore();
-  const files = ref([]);
+  const files = ref<ReadFile[]>([]);
   const uploadingFile = ref(false);
 
   async function fetchFiles() {
